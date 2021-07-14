@@ -1,0 +1,101 @@
+class Calculator:
+    global equ
+    
+    def __init__(self,equation):
+        equation = equation.replace(" ", "")
+        equ = equation
+        arr = []
+        for val in equation:
+            arr.append(val)
+#         if len(equation) == 0:
+#             sum = 0
+#         else: 
+#              sum = self.calculate
+        sum = self.calculate(arr)
+        self.result = sum
+    
+    def replacex(self,equation, num):
+        new_string=[]
+        for val in equation:
+            if val=='x':
+                val=str(num)
+                new_string.append('*')
+            new_string.append(val)
+        return new_string
+    
+    def drawgraph(self,equation):
+        while len(equation) > 0:
+            val = equation.pop(0)
+            if val == '=':
+                #x=1
+                eq = self.replacex(equation, 1)
+                y1 = self.calculate(eq)
+                #x=2
+                eq = self.replacex(equation, 2)
+                y2 = self.calculate(eq)
+                #x=3
+                eq = self.replacex(equation, 3)
+                y3 = self.calculate(eq)
+                #x=4
+                eq = self.replacex(equation, 4)
+                y4 = self.calculate(eq)
+                
+        import matplotlib.pyplot as plt
+        import numpy as np
+        
+        x = np.array([1,2,3,4])
+        y = np.array([y1,y2,y3,y4])
+        print(y)
+        plt.plot(x, y)
+        plt.title('Straight Line Graph')
+        plt.xlabel('x', color='#000000')
+        plt.ylabel('y', color='#000000')
+        plt.grid()
+        plt.show()       
+            
+        
+    def calculate(self, equation):
+        if len(equation) == 0:
+            return 0
+        
+        temp = []
+        num = 0
+        operand = '+'
+        
+        while len(equation) > 0:
+            val = equation.pop(0)
+            if val.isdigit():
+                num = num * 10 + int(val)
+                
+            if val=='y':
+                self.drawgraph(equation)
+                
+            if val == '(':
+                num = self.calculate(equation)
+            l = len(equation)
+            
+            
+                
+            if l == 0 or (val=='+' or val=='-' or val=='/' or val=='*' or val==')'):
+                if operand =='-':
+                    temp.append(-num)
+                elif operand =='+':
+                    temp.append(num)
+                elif operand =='*':
+                    temp[l-1] = temp[l-1]*num
+                elif operand =='/':
+                    temp[l-1] = int(temp[l-1]/float(num))
+                
+                operand = val
+                num = 0
+                if operand == ')':
+                    break;
+#             result = sum(temp)
+#             self.result = result
+#         print(temp)
+        return sum(temp)
+    
+    
+while True:
+        solve = Calculator(input("Enter Equation: "))
+        print(solve.result)
