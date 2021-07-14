@@ -1,0 +1,53 @@
+class Calculator:
+    
+    def __init__(self,equation):
+        equation = equation.replace(" ", "")
+        arr = []
+        for val in equation:
+            arr.append(val)
+#         if len(equation) == 0:
+#             sum = 0
+#         else: 
+#              sum = self.calculate
+        sum = self.calculate(arr)
+        self.result = sum
+        
+    def calculate(self, equation):
+        if len(equation) == 0:
+            return 0
+        
+        temp = []
+        num = 0
+        operand = '+'
+        
+        while len(equation) > 0:
+            val = equation.pop(0)
+            if val.isdigit():
+                num = num * 10 + int(val)
+            if val == '(':
+                num = self.calculate(equation)
+            l = len(equation)
+            
+            if l == 0 or (val=='+' or val=='-' or val=='/' or val=='*' or val==')'):
+                if operand =='-':
+                    temp.append(-num)
+                elif operand =='+':
+                    temp.append(num)
+                elif operand =='*':
+                    temp[l-1] = temp[l-1]*num
+                elif operand =='/':
+                    temp[l-1] = int(temp[l-1]/float(num))
+                
+                operand = val
+                num = 0
+                if operand == ')':
+                    break;
+#             result = sum(temp)
+#             self.result = result
+#         print(temp)
+        return sum(temp)
+    
+while True:
+        solve = Calculator(input("Enter Equation: "))
+        print(solve.result)
+            
